@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-    <category label="51000">
-        <setting id="autostart" type="bool" label="51001" default="true"/>
+    <category label="5100">
+        <setting label="51001" id="hyperion_remote" type="executable" default=""/>
+        <setting label="51002" id="priority" type="slider" default="0" range="0,100,1500" option="int"/>
+    </category>
+    <category label="52000">
+        <setting label="52001" id="autostart" type="bool" default="false"/>
+        <setting label="52002" id="clear_on_video_playback" type="bool" default="false"/>
+        <setting label="52004" id="effect_on_playback_stopped" type="select" default=""
+                 values="Knight rider|Blue mood blobs|Red mood blobs|Full color mood blobs|Green mood blobs|Red mood blobs|Warm mood blobs|Rainbow swirl|Rainbow swirl fast|Snake|Strobe blue|Strobe Raspbmc|Strobe white"/>
+        <setting label="52005" id="effect_on_playback_paused" type="select" default=""
+                 values="Knight rider|Blue mood blobs|Red mood blobs|Full color mood blobs|Green mood blobs|Red mood blobs|Warm mood blobs|Rainbow swirl|Rainbow swirl fast|Snake|Strobe blue|Strobe Raspbmc|Strobe white"/>
+        <setting label="52006" id="effect_on_playback_audio" type="select" default=""
+                 values="Knight rider|Blue mood blobs|Red mood blobs|Full color mood blobs|Green mood blobs|Red mood blobs|Warm mood blobs|Rainbow swirl|Rainbow swirl fast|Snake|Strobe blue|Strobe Raspbmc|Strobe white"/>
     </category>
 </settings>

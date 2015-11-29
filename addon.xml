@@ -4,15 +4,19 @@
         <import addon="xbmc.python" version="2.1.0"/>
     </requires>
     <extension point="xbmc.python.script" library="default.py"/>
-    <extension point="xbmc.service" library="autostart.py"/>
+    <extension point="xbmc.service" library="service.py" start="login"/>
     <extension point="xbmc.addon.metadata">
         <language></language>
         <summary lang="en">Hyperion</summary>
-        <description lang="en">Call this addon from the xbmc json-rpc to run custom Hyperion script.
-            accepted commands are 'switch'. Example:
+        <description lang="en">JSON-RPC interface currently accepted commands are 'color', 'effect' or 'clear'.
+            Examples:
             {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
             "params":{"addonid":"script.hyperion",
-            "params":{"command":"switch"}}}
+            "params":{"command":"color", "color":"green"}}}
+
+            {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
+            "params":{"addonid":"script.hyperion",
+            "params":{"command":"effect", "effect":"Snake"}}}
         </description>
         <platform>all</platform>
         <website>http://www.powerpi.de</website>

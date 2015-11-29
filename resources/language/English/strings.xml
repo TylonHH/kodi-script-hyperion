@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <string id="51000">Basic settings</string>
+    <string id="20000">hyperion-remote not configured..</string>
+    <string id="20001">cleared</string>
 
-    <string id="51001">Autostart</string>
+    <string id="51001">&quot;hyperion-remote&quot; binary</string>
+    <string id="51002">Priority</string>
+
+    <string id="52000">Automatic</string>
+    <string id="52001">enabled</string>
+    <string id="52002">clear all on video playback</string>
+    <string id="52004">effect on video playback stop</string>
+    <string id="52005">effect on video playback paused</string>
+    <string id="52006">effect on audio playback</string>
 </strings>
