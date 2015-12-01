@@ -1,2 +1,3 @@
 version 0.0.1
   - initial release
+  - working json rpc interface for color/effect/clear commands
