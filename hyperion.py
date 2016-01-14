@@ -10,22 +10,34 @@ class Remote:
         self.hyperion_remote = hyperion_remote
         self.priority = priority
 
-    def color(self, color):
-        self.run('--color ' + '"' + color + '"')
+    def color(self, color, priority=None):
+        self.run(priority=priority, args='--color ' + '"' + color + '"')
 
-    def effect(self, effect):
-        self.run('--effect ' + '"' + effect + '"')
+    def effect(self, effect, priority=None):
+        self.run(priority=priority, args='--effect ' + '"' + effect + '"')
 
-    def clear(self):
-        self.run('--clear')
+    def clear(self, priority=None):
+        self.run(priority=priority, args='--clear')
 
-    def run(self, args):
-        cmd = self.hyperion_remote + ' --priority ' + self.priority + ' ' + args
+    def clearAll(self):
+        self.run(args='--clearall')
 
-        self.debug(cmd)
+    def run(self, args=None, priority=None):
 
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        self.debug(p.communicate())
+        if not args:
+            return False
 
-    def debug(self, echo):
-        print 'Hyperion.Remote: ' + str(echo)
+        if priority == None:
+            priority = self.priority
+
+        cmd = self.hyperion_remote + ' --priority ' + priority + ' ' + args
+
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        ret, err = p.communicate()
+
+        print 'Hyperion.Remote: ' + str(ret)
+
+        if p.returncode == 0:
+            return ret
+        else:
+            return False

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.hyperion" name="Hyperion" version="0.0.1" provider-name="b2un0">
+<addon id="script.hyperion" name="Hyperion" version="0.0.2" provider-name="b2un0">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
     </requires>
     <extension point="xbmc.python.script" library="default.py"/>
-    <extension point="xbmc.service" library="service.py" start="login"/>
+    <extension point="xbmc.service" library="service.py" start="startup"/>
+    <!--<extension point="xbmc.python.pluginsource" library="plugin.py"/>-->
     <extension point="xbmc.addon.metadata">
-        <language></language>
+        <language/>
         <summary lang="en">Hyperion</summary>
-        <description lang="en">JSON-RPC interface currently accepted commands are 'color', 'effect' or 'clear'.
-            Examples:
+        <description lang="en">JSON-RPC interface Examples:
+
             {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
             "params":{"addonid":"script.hyperion",
             "params":{"command":"color", "color":"green"}}}
@@ -17,11 +18,19 @@
             {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
             "params":{"addonid":"script.hyperion",
             "params":{"command":"effect", "effect":"Snake"}}}
+
+            {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
+            "params":{"addonid":"script.hyperion",
+            "params":{"command":"clear"}}}
+
+            {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
+            "params":{"addonid":"script.hyperion",
+            "params":{"command":"switch"}}}
         </description>
-        <platform>all</platform>
-        <website>http://www.powerpi.de</website>
+        <platform>linux</platform>
+        <website>http://www.z-index.net</website>
         <source>https://github.com/b2un0/kodi-script-hyperion/</source>
-        <forum>http://powerpi.de/forum/</forum>
+        <forum>http://powerpi.de/forum/viewtopic.php?t=190</forum>
         <email>bw@z-index.net</email>
         <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
     </extension>

@@ -1,65 +1,110 @@
-import urlparse, sys
-import xbmc, xbmcaddon, xbmcgui
+import sys, os, xbmcaddon, xbmcgui, xbmc
 import hyperion
+from urlparse import parse_qsl
 
 __addon__ = xbmcaddon.Addon()
 __title__ = __addon__.getAddonInfo('name')
 __icon__ = __addon__.getAddonInfo('icon')
 __language__ = __addon__.getLocalizedString
+__hyperion__ = None
 
 
-def Main():
-    hyperion_remote = __addon__.getSetting('hyperion_remote')
-    priority = __addon__.getSetting('priority')
+def log(txt):
+    message = '%s: %s' % (__title__, txt.encode('ascii', 'ignore'))
+    xbmc.log(msg=message, level=xbmc.LOGDEBUG)
 
-    hp = hyperion.Remote(hyperion_remote=hyperion_remote, priority=priority)
 
-    # hyperion-remote binary not definied, throw error message
-    if not hyperion_remote:
-        print 'Hyperion.JSONRPC: ' + __language__(20000)
-        xbmcgui.Dialog().notification(__title__, __language__(20000), __icon__, 5000)
-        return
+class Main:
+    def __init__(self):
+        hyperion_remote = __addon__.getSetting('hyperion_remote')
+        priority = __addon__.getSetting('priority')
 
-    params = urlparse.parse_qs('&'.join(sys.argv[1:]))
+        global __hyperion__
 
-    command = params.get('command', None)[0]
+        if not hyperion_remote:
+            print 'Hyperion.Script: ' + __language__(20000)
+            xbmcgui.Dialog().notification(__title__, __language__(20000), __icon__, 5000)
+            return
 
-    if not command:
-        print 'Hyperion.JSONRPC: no command given?!'
-        return False
+        __hyperion__ = hyperion.Remote(hyperion_remote=hyperion_remote, priority=priority)
 
-    print 'Hyperion.JSONRPC: command %s found' % command
+        self.params = dict(parse_qsl('&'.join(sys.argv)))
 
-    if command == 'effect':
+        if not self.params:
+            xbmc.executebuiltin('Addon.OpenSettings(script.hyperion)')
 
-        effect = params.get('effect', None)[0]
+        command = self.params.get('command', None)
+
+        log('Script: command: %s' % command)
+
+        if command is None:
+            log('Script: no command given?!')
+
+        elif command == 'effect':
+            self._effect()
+
+        elif command == 'color':
+            self._color()
+
+        elif command == 'clear':
+            self._clear()
+
+        elif command == 'clearall':
+            self._clearAll()
+
+        elif command == 'switch':
+            self._switch()
+
+    def _effect(self):
+        effect = self.params.get('effect', None)
+        priority = self.params.get('priority', None)
 
         if not effect:
-            return False
+            return
 
-        hp.effect(effect)
         xbmcgui.Dialog().notification(__title__, effect, __icon__, 3000)
+        __hyperion__.effect(effect, priority)
 
-    elif command == 'color':
-
-        color = params.get('color', None)[0]
+    def _color(self):
+        color = self.params.get('color', None)
+        priority = self.params.get('priority', None)
 
         if not color:
-            return False
+            return
 
-        hp.color(color)
         xbmcgui.Dialog().notification(__title__, color, __icon__, 3000)
+        __hyperion__.color(color, priority)
 
-    elif command == 'switch':
-        # TODO
-        script_switch = __addon__.getSetting("script_switch")
-        xbmc.executebuiltin('RunScript(' + script_switch + ')')
+    def _clear(self):
+        priority = self.params.get('priority', None)
 
-    elif command == 'clear':
-
-        hp.clear()
         xbmcgui.Dialog().notification(__title__, __language__(20001), __icon__, 3000)
+        __hyperion__.clear(priority)
+
+    def _clearAll(self):
+        xbmcgui.Dialog().notification(__title__, __language__(20001), __icon__, 3000)
+        __hyperion__.clearAll()
+
+    def _switch(self):
+        temp_file = os.path.join(xbmc.translatePath('special://temp/'), __title__)
+        priority = self.params.get('priority', None)
+
+        if os.path.exists(temp_file):
+            if __addon__.getSetting('switch_type') == '0':
+                __hyperion__.effect(__addon__.getSetting('switch_effect'), priority)
+            else:
+                __hyperion__.clearAll()
+
+            os.remove(temp_file)
+        else:
+            __hyperion__.color('black', priority)
+            open(temp_file, 'a').close()
+
+    # TODO
+    def _multiSwitch(self):
+        pass
 
 
 if __name__ == '__main__':
+    log('Script: execute')
     Main()
