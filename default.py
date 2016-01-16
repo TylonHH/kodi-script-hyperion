@@ -1,4 +1,4 @@
-import sys, os, xbmcaddon, xbmcgui, xbmc
+import sys, subprocess, xbmcaddon, xbmcgui, xbmc
 import hyperion
 from urlparse import parse_qsl
 
@@ -92,13 +92,20 @@ class Main:
 
         priority = self.params.get('priority', None)
 
-        if __hyperion__.getState() is True:
+        state = __hyperion__.getState()
+
+        if state is True:
             __hyperion__.color('black', priority)
         else:
             if __addon__.getSetting('switch_type') == '1':
                 __hyperion__.effect(__addon__.getSetting('switch_effect'), priority)
             else:
                 __hyperion__.clearAll()
+
+        if __addon__.getSetting('switch_additional'):
+            cmd = '%s %s' % (__addon__.getSetting('switch_additional'), 'off' if state is True else 'on')
+            log('Script: switch additional %s' % cmd)
+            subprocess.Popen(cmd, shell=True)
 
     # TODO
     def _multiSwitch(self):

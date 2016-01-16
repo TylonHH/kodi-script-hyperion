@@ -23,6 +23,7 @@
     <string id="53001">mode</string>
     <string id="53002">effect</string>
     <string id="53003">clearAll</string>
+    <string id="53004">additional executable</string>
 
     <!-- don't translate values below! -->
     <string id="30000"></string>
