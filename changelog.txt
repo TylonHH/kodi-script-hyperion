@@ -1,3 +1,11 @@
+version 0.0.3
+ - small bug fixes
+ - code improvements
+
+version 0.0.2
+ - working service interface
+ - enhanced json rpc interface
+
 version 0.0.1
   - initial release
   - working json rpc interface for color/effect/clear commands

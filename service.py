@@ -10,7 +10,7 @@ __hyperion__ = None
 
 def log(txt):
     message = '%s: %s' % (__title__, txt.encode('ascii', 'ignore'))
-    xbmc.log(msg=message, level=xbmc.LOGDEBUG)
+    xbmc.log(msg=message, level=xbmc.LOGNOTICE)
 
 
 class Main:
@@ -44,7 +44,7 @@ class MyMonitor(xbmc.Monitor):
 
     def onStart(self):
         log('Monitor: onStart')
-        if __addon__.getSetting('clear_on_start'):
+        if __addon__.getSetting('clear_on_start') == 'true':
             __hyperion__.clearAll()
 
         if __addon__.getSetting('effect_on_kodi_startup'):
@@ -52,12 +52,12 @@ class MyMonitor(xbmc.Monitor):
 
     def onShutdown(self):
         log('Monitor: onShutdown')
-        if __addon__.getSetting('off_on_shutdown'):
+        if __addon__.getSetting('off_on_shutdown') == 'true':
             __hyperion__.color('black')
 
     def onScreensaverActivated(self):
         log('Monitor: onScreensaverActivated')
-        if __addon__.getSetting('off_on_screensaver_activated'):
+        if __addon__.getSetting('off_on_screensaver_activated') == 'true':
             __hyperion__.color('black')
 
     def onScreensaverDeactivated(self):
@@ -79,7 +79,7 @@ class MyPlayer(xbmc.Player):
             __hyperion__.effect(__addon__.getSetting('effect_on_playback_audio'))
 
     def onPlayBackResumed(self):
-        if __addon__.getSetting('clear_on_video_playback') and xbmc.Player().isPlayingVideo():
+        if __addon__.getSetting('clear_on_video_playback') == 'true' and xbmc.Player().isPlayingVideo():
             __hyperion__.clearAll()
 
     def onPlayBackPaused(self):

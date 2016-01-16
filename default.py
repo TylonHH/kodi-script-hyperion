@@ -11,7 +11,7 @@ __hyperion__ = None
 
 def log(txt):
     message = '%s: %s' % (__title__, txt.encode('ascii', 'ignore'))
-    xbmc.log(msg=message, level=xbmc.LOGDEBUG)
+    xbmc.log(msg=message, level=xbmc.LOGNOTICE)
 
 
 class Main:
@@ -86,19 +86,19 @@ class Main:
         __hyperion__.clearAll()
 
     def _switch(self):
-        temp_file = os.path.join(xbmc.translatePath('special://temp/'), __title__)
+
+        if not __addon__.getSetting('switch_type'):
+            return
+
         priority = self.params.get('priority', None)
 
-        if os.path.exists(temp_file):
-            if __addon__.getSetting('switch_type') == '0':
+        if __hyperion__.getState() is True:
+            __hyperion__.color('black', priority)
+        else:
+            if __addon__.getSetting('switch_type') == '1':
                 __hyperion__.effect(__addon__.getSetting('switch_effect'), priority)
             else:
                 __hyperion__.clearAll()
-
-            os.remove(temp_file)
-        else:
-            __hyperion__.color('black', priority)
-            open(temp_file, 'a').close()
 
     # TODO
     def _multiSwitch(self):
