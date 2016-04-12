@@ -2,6 +2,7 @@
 <addon id="script.hyperion" name="Hyperion" version="0.0.5" provider-name="b2un0">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
+        <!--<import addon="script.common.plugin.cache" version="2.5.0"/>-->
     </requires>
     <extension point="xbmc.python.script" library="default.py"/>
     <extension point="xbmc.service" library="service.py" start="startup"/>

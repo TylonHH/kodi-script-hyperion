@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <string id="20000">hyperion-remote not configured..</string>
+    <string id="20000">hyperion host/port not configured..</string>
     <string id="20001">cleared</string>
 
-    <string id="51001">&quot;hyperion-remote&quot; binary</string>
-    <string id="51002">Priority</string>
+    <string id="51000">hyperion</string>
+    <string id="51001">host</string>
+    <string id="51002">port</string>
+    <string id="51003">Priority</string>
 
     <string id="52000">Service</string>
     <string id="52001">enabled</string>

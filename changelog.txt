@@ -1,3 +1,6 @@
+version 0.0.5
+ - switch from hyperion remote-binary to json interface
+
 version 0.0.4
  - switch additional executable
 

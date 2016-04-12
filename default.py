@@ -16,17 +16,18 @@ def log(txt):
 
 class Main:
     def __init__(self):
-        hyperion_remote = __addon__.getSetting('hyperion_remote')
+        hyperion_host = __addon__.getSetting('hyperion_host')
+        hyperion_port = __addon__.getSetting('hyperion_port')
         priority = __addon__.getSetting('priority')
 
         global __hyperion__
 
-        if not hyperion_remote:
+        if not hyperion_host or not hyperion_port:
             print 'Hyperion.Script: ' + __language__(20000)
             xbmcgui.Dialog().notification(__title__, __language__(20000), __icon__, 5000)
             return
 
-        __hyperion__ = hyperion.Remote(hyperion_remote=hyperion_remote, priority=priority)
+        __hyperion__ = hyperion.Remote(hyperion_host=hyperion_host, hyperion_port=hyperion_port, priority=priority)
 
         self.params = dict(parse_qsl('&'.join(sys.argv)))
 
@@ -106,10 +107,6 @@ class Main:
             cmd = '%s %s' % (__addon__.getSetting('switch_additional'), 'off' if state is True else 'on')
             log('Script: switch additional %s' % cmd)
             subprocess.Popen(cmd, shell=True)
-
-    # TODO
-    def _multiSwitch(self):
-        pass
 
 
 if __name__ == '__main__':

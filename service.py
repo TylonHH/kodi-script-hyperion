@@ -15,16 +15,17 @@ def log(txt):
 
 class Main:
     def __init__(self):
-        hyperion_remote = __addon__.getSetting('hyperion_remote')
+        hyperion_host = __addon__.getSetting('hyperion_host')
+        hyperion_port = __addon__.getSetting('hyperion_port')
         priority = __addon__.getSetting('priority')
         global __hyperion__
 
-        if not hyperion_remote:
+        if not hyperion_host or not hyperion_port:
             log('Service: ' + __language__(20000))
             xbmcgui.Dialog().notification(__title__, __language__(20000), __icon__, 5000)
             return
 
-        __hyperion__ = hyperion.Remote(hyperion_remote=hyperion_remote, priority=priority)
+        __hyperion__ = hyperion.Remote(hyperion_host=hyperion_host, hyperion_port=hyperion_port, priority=priority)
 
         self.Player = MyPlayer()
         self.Monitor = MyMonitor()
@@ -39,7 +40,7 @@ class Main:
 
 
 class MyMonitor(xbmc.Monitor):
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         xbmc.Monitor.__init__(self)
 
     def onStart(self):

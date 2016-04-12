@@ -1,14 +1,18 @@
-import xbmc, os, subprocess
+import xbmc, os, json, socket
 
 
 class Remote:
-    def __init__(self, hyperion_remote='hyperion-remote', priority='0'):
-        self.hyperion_remote = hyperion_remote
+    def __init__(self, hyperion_host='127.0.0.1', hyperion_port='19444', priority='0'):
+        self.hyperion_host = hyperion_host
+        self.hyperion_port = hyperion_port
         self.priority = priority
         self.state_file = os.path.join(xbmc.translatePath('special://temp/'), 'hyperion')
 
     def color(self, color, priority=None):
-        self.run(priority=priority, args='--color ' + '"' + color + '"')
+
+        payload = {'command': 'color', 'color': color, 'priority': priority}
+
+        self.run(payload=payload)
 
         if color == 'black':
             self.setState('off')
@@ -16,36 +20,44 @@ class Remote:
             self.setState('on')
 
     def effect(self, effect, priority=None):
-        self.run(priority=priority, args='--effect ' + '"' + effect + '"')
+        payload = {'command': 'effect', 'effect': {'name': effect}, 'priority': priority}
+        self.run(payload=payload)
         self.setState('on')
 
     def clear(self, priority=None):
-        self.run(priority=priority, args='--clear')
+        payload = {'command': 'clear', 'priority': priority}
+        self.run(payload=payload)
         self.setState('on')
 
     def clearAll(self):
-        self.run(args='--clearall')
+        payload = {'command': 'clearall'}
+        self.run(payload=payload)
         self.setState('on')
 
-    def run(self, args=None, priority=None):
+    def serverinfo(self):
+        payload = {'command': 'serverinfo'}
+        self.run(payload=payload)
+        self.setState('on')
 
-        if not args:
+    def run(self, payload=None):
+
+        if not payload:
             return False
 
-        if priority is None:
-            priority = self.priority
+        if not payload['priority']:
+            payload['priority'] = self.priority
 
-        cmd = self.hyperion_remote + ' --priority ' + priority + ' ' + args
+        print json.dumps(payload)
 
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-        ret, err = p.communicate()
+        try:
+            ret = Client().connect(self.hyperion_host, self.hyperion_port).send(payload).recv()
+        except Exception, e:
+            print "Hyperion.Remote: " + str(e)
+            return False
 
         print 'Hyperion.Remote: ' + str(ret)
 
-        if p.returncode == 0:
-            return ret
-        else:
-            return False
+        return ret
 
     def setState(self, state):
         if state == 'off':
@@ -56,3 +68,63 @@ class Remote:
 
     def getState(self):
         return os.path.exists(self.state_file)
+
+
+class Client(object):
+    socket = None
+
+    def __del__(self):
+        self.close()
+
+    def connect(self, host, port, timeout=5):
+        self.socket = socket.socket()
+        self.socket.settimeout(timeout)
+        try:
+            self.socket.connect((host, int(port)))
+        except socket.error, exc:
+            raise Exception(exc)
+
+        return self
+
+    def send(self, data):
+        if not self.socket:
+            raise Exception('You have to connect first before sending data')
+        self._send(data)
+        return self
+
+    def recv(self):
+        data = self.recv()
+        self.close()
+        return data
+
+    def close(self):
+        if self.socket:
+            self.socket.close()
+            self.socket = None
+
+    def _send(self, data):
+        try:
+            serialized = json.dumps(data)
+        except (TypeError, ValueError), e:
+            raise Exception('You can only send JSON-serializable data')
+        self.socket.send(serialized)
+
+    def _recv(self):
+        # read the length of the data, letter by letter until we reach EOL
+        length_str = ''
+        char = self.socket.recv(1)
+        while char != '\n':
+            length_str += char
+            char = self.socket.recv(1)
+        total = int(length_str)
+        # use a memoryview to receive the data chunk by chunk efficiently
+        view = memoryview(bytearray(total))
+        next_offset = 0
+        while total - next_offset > 0:
+            recv_size = self.socket.recv_into(view[next_offset:], total - next_offset)
+            next_offset += recv_size
+        try:
+            deserialized = json.loads(view.tobytes())
+        except (TypeError, ValueError), e:
+            raise Exception('Data received was not in JSON format')
+        return deserialized
