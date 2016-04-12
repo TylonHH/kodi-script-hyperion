@@ -1,5 +1,7 @@
 # Kodi Hyperion Addon
 
-Test install guide: place the content of this repository into ```~/.kodi/addons/script.hyperion/```
+##### Install Guide
+- download and install Kodi repository: http://kodi.z-index.net/addons/repository.zindex.zip
+- install Hyperion Addon from my repository
 
-German Support Thread: http://powerpi.de/forum/viewtopic.php?t=190
+German support thread: http://powerpi.de/forum/viewtopic.php?t=190
