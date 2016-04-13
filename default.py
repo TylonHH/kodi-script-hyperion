@@ -74,8 +74,12 @@ class Main:
         if not color:
             return
 
+        try:
+            __hyperion__.color(color, priority)
+        except ValueError as e:
+            color = e.message
+
         xbmcgui.Dialog().notification(__title__, color, __icon__, 3000)
-        __hyperion__.color(color, priority)
 
     def _clear(self):
         priority = self.params.get('priority', None)
@@ -94,9 +98,7 @@ class Main:
 
         priority = self.params.get('priority', None)
 
-        state = __hyperion__.getState()
-
-        if state is True:
+        if __hyperion__.getState() == 'on':
             __hyperion__.color('black', priority)
         else:
             if __addon__.getSetting('switch_type') == '1':
@@ -105,7 +107,7 @@ class Main:
                 __hyperion__.clearAll()
 
         if __addon__.getSetting('switch_additional'):
-            cmd = '%s %s' % (__addon__.getSetting('switch_additional'), 'off' if state is True else 'on')
+            cmd = '%s %s' % (__addon__.getSetting('switch_additional'), __hyperion__.getState())
             log('Script: switch additional %s' % cmd)
             subprocess.Popen(cmd, shell=True)
 

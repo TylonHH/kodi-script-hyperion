@@ -1,4 +1,4 @@
-import xbmc, os, json, socket
+import json, socket
 
 from resources.lib import webcolors
 
@@ -8,7 +8,13 @@ class Remote:
         self.hyperion_host = hyperion_host
         self.hyperion_port = hyperion_port
         self.priority = priority
-        self.state_file = os.path.join(xbmc.translatePath('special://temp/'), 'hyperion')
+
+        try:
+            import StorageServer
+        except:
+            from resources.lib import storageserverdummy as StorageServer
+
+        self.cache = StorageServer.StorageServer('hyperion', 8544)
 
     def color(self, color, priority=None):
 
@@ -45,6 +51,9 @@ class Remote:
         if not payload:
             return False
 
+        if 'priority' not in payload:
+            payload['priority'] = int(self.priority)
+
         if payload['priority'] is None:
             payload['priority'] = int(self.priority)
 
@@ -61,14 +70,10 @@ class Remote:
         return ret
 
     def setState(self, state):
-        if state == 'off':
-            if os.path.exists(self.state_file):
-                os.remove(self.state_file)
-        else:
-            open(self.state_file, 'a').close()
+        self.cache.set('state', state)
 
     def getState(self):
-        return os.path.exists(self.state_file)
+        return self.cache.get('state')
 
     def nc(self, data):
         try:
