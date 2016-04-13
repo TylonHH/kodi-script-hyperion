@@ -93,7 +93,7 @@ class Client(object):
         return self
 
     def recv(self):
-        data = self.recv()
+        data = self._recv()
         self.close()
         return data
 
@@ -104,7 +104,7 @@ class Client(object):
 
     def _send(self, data):
         try:
-            serialized = json.dumps(data)
+            serialized = json.dumps(data) + '\n'
         except (TypeError, ValueError), e:
             raise Exception('You can only send JSON-serializable data')
         self.socket.send(serialized)
