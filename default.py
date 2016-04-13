@@ -1,6 +1,7 @@
 import sys, subprocess, xbmcaddon, xbmcgui, xbmc
-import hyperion
 from urlparse import parse_qsl
+
+from resources.lib import hyperion
 
 __addon__ = xbmcaddon.Addon()
 __title__ = __addon__.getAddonInfo('name')
