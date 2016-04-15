@@ -1,5 +1,9 @@
-version 0.0.5
+version 0.0.6
  - switch from hyperion remote-binary to json interface
+ - add more log
+
+version 0.0.5
+ - new effects
 
 version 0.0.4
  - switch additional executable

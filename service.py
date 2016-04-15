@@ -1,4 +1,7 @@
-import xbmc, xbmcaddon, xbmcgui
+import xbmc
+import xbmcaddon
+import xbmcgui
+
 from resources.lib import hyperion
 
 __addon__ = xbmcaddon.Addon()
@@ -32,7 +35,6 @@ class Main:
         self._daemon()
 
     def _daemon(self):
-        self.Monitor.onStart()
         while not self.Monitor.abortRequested():
             if self.Monitor.waitForAbort(10):
                 self.Monitor.onShutdown()
@@ -42,28 +44,30 @@ class Main:
 class MyMonitor(xbmc.Monitor):
     def __init__(self):
         xbmc.Monitor.__init__(self)
+        self.onStart()
 
     def onStart(self):
-        log('Monitor: onStart')
         if __addon__.getSetting('clear_on_start') == 'true':
+            log('Monitor: onStart(clearAll)')
             __hyperion__.clearAll()
 
         if __addon__.getSetting('effect_on_kodi_startup'):
+            log('Monitor: onStart(effect)')
             __hyperion__.effect(__addon__.getSetting('effect_on_kodi_startup'))
 
     def onShutdown(self):
-        log('Monitor: onShutdown')
         if __addon__.getSetting('off_on_shutdown') == 'true':
+            log('Monitor: onShutdown')
             __hyperion__.color('black')
 
     def onScreensaverActivated(self):
-        log('Monitor: onScreensaverActivated')
         if __addon__.getSetting('off_on_screensaver_activated') == 'true':
+            log('Monitor: onScreensaverActivated')
             __hyperion__.color('black')
 
     def onScreensaverDeactivated(self):
-        log('Monitor: onScreensaverDeactivated')
         if __addon__.getSetting('effect_on_screensaver_deactived'):
+            log('Monitor: onScreensaverDeactivated')
             __hyperion__.effect(__addon__.getSetting('effect_on_screensaver_deactived'))
 
 
@@ -72,23 +76,27 @@ class MyPlayer(xbmc.Player):
         xbmc.Player.__init__(self)
 
     def onPlayBackStarted(self):
-        log('Player: onPlayBackStarted')
         if __addon__.getSetting('clear_on_video_playback') and xbmc.Player().isPlayingVideo():
+            log('Player: onPlayBackStarted(clearAll)')
             __hyperion__.clearAll()
 
         if __addon__.getSetting('effect_on_playback_audio') and xbmc.Player().isPlayingAudio():
+            log('Player: onPlayBackStarted(effect)')
             __hyperion__.effect(__addon__.getSetting('effect_on_playback_audio'))
 
     def onPlayBackResumed(self):
         if __addon__.getSetting('clear_on_video_playback') == 'true' and xbmc.Player().isPlayingVideo():
+            log('Player: onPlayBackResumed')
             __hyperion__.clearAll()
 
     def onPlayBackPaused(self):
         if __addon__.getSetting('effect_on_playback_paused') and xbmc.Player().isPlayingVideo():
+            log('Player: onPlayBackPaused')
             __hyperion__.effect(__addon__.getSetting('effect_on_playback_paused'))
 
     def onPlayBackStopped(self):
         if __addon__.getSetting('effect_on_playback_stopped'):
+            log('Player: onPlayBackStopped')
             __hyperion__.effect(__addon__.getSetting('effect_on_playback_stopped'))
 
     def onPlayBackEnded(self):

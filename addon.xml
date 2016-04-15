@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.hyperion" name="Hyperion" version="0.0.5" provider-name="b2un0">
+<addon id="script.hyperion" name="Hyperion" version="0.0.6" provider-name="b2un0">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.common.plugin.cache" version="2.5.0"/>
@@ -10,7 +10,7 @@
     <extension point="xbmc.addon.metadata">
         <language/>
         <summary lang="en">Hyperion</summary>
-        <description lang="en">JSON-RPC interface Examples:
+        <description lang="en">JSON-RPC interface examples:
 
             {"jsonrpc":"2.0","id":1,"method":"Addons.ExecuteAddon",
             "params":{"addonid":"script.hyperion",
@@ -28,7 +28,6 @@
             "params":{"addonid":"script.hyperion",
             "params":{"command":"switch"}}}
         </description>
-        <platform>linux</platform>
         <website>http://www.z-index.net</website>
         <source>https://github.com/b2un0/kodi-script-hyperion/</source>
         <forum>http://powerpi.de/forum/viewtopic.php?t=190</forum>

@@ -1,4 +1,5 @@
-import json, socket
+import json
+import socket
 
 from resources.lib import webcolors
 
@@ -20,41 +21,44 @@ class Remote:
 
         payload = {'command': 'color', 'color': webcolors.name_to_rgb(color), 'priority': priority}
 
-        self.run(payload=payload)
-
         if color == 'black':
             self.setState('off')
         else:
             self.setState('on')
 
+        return self.run(payload)
+
     def effect(self, effect, priority=None):
         payload = {'command': 'effect', 'effect': {'name': effect}, 'priority': priority}
-        self.run(payload=payload)
+
         self.setState('on')
+
+        return self.run(payload)
 
     def clear(self, priority=None):
         payload = {'command': 'clear', 'priority': priority}
-        self.run(payload=payload)
+
         self.setState('on')
+
+        return self.run(payload)
 
     def clearAll(self):
         payload = {'command': 'clearall'}
-        self.run(payload=payload)
         self.setState('on')
+
+        return self.run(payload)
 
     def serverinfo(self):
         payload = {'command': 'serverinfo'}
-        self.run(payload=payload)
 
-    def run(self, payload=None):
+        return self.run(payload)
+
+    def run(self, payload):
 
         if not payload:
             return False
 
-        if 'priority' not in payload:
-            payload['priority'] = int(self.priority)
-
-        if payload['priority'] is None:
+        if 'priority' in payload and payload['priority'] is None:
             payload['priority'] = int(self.priority)
 
         data = json.dumps(payload) + '\n'

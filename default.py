@@ -1,6 +1,10 @@
-import sys, subprocess, xbmcaddon, xbmcgui, xbmc
-from urlparse import parse_qsl
+import sys
+import subprocess
+import xbmc
+import xbmcaddon
+import xbmcgui
 
+from urlparse import parse_qsl
 from resources.lib import hyperion
 
 __addon__ = xbmcaddon.Addon()
