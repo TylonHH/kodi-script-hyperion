@@ -65,7 +65,7 @@ class Remote:
 
         try:
             ret = self.nc(data)
-        except Exception, e:
+        except Exception as e:
             print "Hyperion.Remote: " + str(e)
             return False
 
@@ -91,7 +91,7 @@ class Remote:
 
             s.close()
 
-        except socket.error as exc:
-            raise Exception(exc)
+        except socket.error as e:
+            raise Exception(e)
 
         return json.loads(data)

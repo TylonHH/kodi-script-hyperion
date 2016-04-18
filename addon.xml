@@ -6,7 +6,6 @@
     </requires>
     <extension point="xbmc.python.script" library="default.py"/>
     <extension point="xbmc.service" library="service.py" start="startup"/>
-    <!--<extension point="xbmc.python.pluginsource" library="plugin.py"/>-->
     <extension point="xbmc.addon.metadata">
         <language/>
         <summary lang="en">Hyperion</summary>

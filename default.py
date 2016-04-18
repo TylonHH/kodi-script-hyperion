@@ -37,7 +37,8 @@ class Main:
         self.params = dict(parse_qsl('&'.join(sys.argv)))
 
         if not self.params:
-            xbmc.executebuiltin('Addon.OpenSettings(script.hyperion)')
+            self._gui()
+            return
 
         command = self.params.get('command', None)
 
@@ -60,6 +61,37 @@ class Main:
 
         elif command == 'switch':
             self._switch()
+
+    def _gui(self):
+        # TODO cache serverinfo temporary?
+        info = __hyperion__.serverinfo()
+
+        options = ['clear', 'clearAll', 'switch', '']
+
+        for effect in info['info']['effects']:
+            options.append(effect['name'])
+
+        ret = xbmcgui.Dialog().select(__title__, options)
+
+        if ret == -1:
+            pass
+
+        elif ret == 0:
+            self._clear()
+
+        elif ret == 1:
+            self._clearAll()
+
+        elif ret == 2:
+            # if xbmcgui.Dialog().yesno(__title__, 'switch?'):
+            self._switch()
+
+        elif ret == 3:
+            pass
+
+        elif ret >= 4:
+            self.params.setdefault('effect', options[ret])
+            self._effect()
 
     def _effect(self):
         effect = self.params.get('effect', None)
