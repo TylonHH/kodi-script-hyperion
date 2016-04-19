@@ -73,7 +73,6 @@ class Remote:
             ret = self.nc(data)
         except Exception as e:
             log(str(data))
-            log(str(ret))
             log(str(e))
             return False
 
