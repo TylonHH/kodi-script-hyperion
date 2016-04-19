@@ -2,6 +2,8 @@
 <strings>
     <string id="20000">hyperion host/port not configured..</string>
     <string id="20001">cleared</string>
+    <string id="20002">serverinfo failed?!</string>
+    <string id="20003">effect list is empty?!</string>
 
     <string id="51000">hyperion</string>
     <string id="51001">host</string>

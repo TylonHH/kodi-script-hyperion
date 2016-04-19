@@ -66,6 +66,14 @@ class Main:
         # TODO cache serverinfo temporary?
         info = __hyperion__.serverinfo()
 
+        if type(info) == type(True) or 'info' not in info:
+            xbmcgui.Dialog().notification(__title__, __language__(20002), __icon__, 3000)
+            return False
+
+        if 'effects' not in info['info'] or not info['info']:
+            xbmcgui.Dialog().notification(__title__, __language__(20003), __icon__, 3000)
+            return False
+
         options = ['clear', 'clearAll', 'switch', '']
 
         for effect in info['info']['effects']:

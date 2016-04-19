@@ -1,7 +1,13 @@
 import json
 import socket
+import xbmc
 
 from resources.lib import webcolors
+
+
+def log(txt):
+    message = '%s: %s' % ('Hyperion.Remote', txt.encode('ascii', 'ignore'))
+    xbmc.log(msg=message, level=xbmc.LOGNOTICE)
 
 
 class Remote:
@@ -66,10 +72,10 @@ class Remote:
         try:
             ret = self.nc(data)
         except Exception as e:
-            print "Hyperion.Remote: " + str(e)
+            log(str(data))
+            log(str(ret))
+            log(str(e))
             return False
-
-        print 'Hyperion.Remote: ' + str(ret)
 
         return ret
 
