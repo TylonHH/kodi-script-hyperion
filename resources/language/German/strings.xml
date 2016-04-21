@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <string id="20000">hyperion Host/Port nicht konfiguriert..</string>
+    <string id="20001">gelöscht</string>
+
+    <string id="51000">hyperion</string>
+    <string id="51001">Host</string>
+    <string id="51002">Port</string>
+    <string id="51003">Priorität</string>
+
+    <string id="52000">Service</string>
+    <string id="52001">aktiviert</string>
+    <string id="52002">Zurücksetzen bei Videowiedergabe</string>
+    <string id="52003">setzte Farbe zu Schwarz wenn kodi herunterfährt</string>
+
+    <string id="52007">alles Zurücksetzen beim Starten</string>
+    <string id="52008">Effekt bei gestoppter Videowiedergabe</string>
+    <string id="52009">Effekt bei pausierter Videowiedergabe</string>
+    <string id="52010">Effekt Musikwiedergabe</string>
+    <string id="52011">Effekt bei Startvorgang von Kodi</string>
+    <string id="52006">Effekt wenn Bilschirmschoner aktiviert</string>
+    <string id="52012">Effekt wenn Bilschirmschoner deaktiviert</string>
+
+    <string id="53000">Umschalter</string>
+    <string id="53001">Modus</string>
+    <string id="53002">Effekt</string>
+    <string id="53003">zurücksetzen</string>
+    <string id="53004">zusätzlich ausführen</string>
+
+    <!-- don't translate values below! -->
+    <string id="30000"></string>
+    <string id="30001">Knight rider</string>
+    <string id="30002">Blue mood blobs</string>
+    <string id="30003">Red mood blobs</string>
+    <string id="30004">Full color mood blobs</string>
+    <string id="30005">Green mood blobs</string>
+    <string id="30006">Red mood blobs</string>
+    <string id="30007">Warm mood blobs</string>
+    <string id="30008">Rainbow swirl</string>
+    <string id="30009">Rainbow swirl fast</string>
+    <string id="30010">Snake</string>
+    <string id="30011">Strobe blue</string>
+    <string id="30012">Strobe Raspbmc</string>
+    <string id="30013">Strobe white</string>
+    <string id="30014">Police Lights Single</string>
+    <string id="30015">Police Lights Solid</string>
+    <string id="30016">X-Mas</string>
+</strings>
